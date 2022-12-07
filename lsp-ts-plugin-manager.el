@@ -8,7 +8,7 @@
 ;; Version: 0.1.0
 ;; Keywords: tools convenience
 ;; Homepage: https://github.com/theschmocker/dotfiles/blob/main/emacs/.doom.d/lisp/lsp-ts-plugin-manager.el
-;; Package-Requires: ((emacs "28.2") (lsp-mode "8.0.1") (dash "2.19.1"))
+;; Package-Requires: ((emacs "28.2") (lsp-mode "8.0.1") (dash "2.19.1") (f "0.20.0"))
 
 ;;; Commentary:
 ;;
@@ -20,6 +20,7 @@
 ;;; Code:
 
 (require 'dash)
+(require 'f)
 (require 'lsp-mode)
 
 (defvar lsp-ts-plugin-manager--registered-plugins (make-hash-table :test #'equal))
@@ -299,6 +300,22 @@ installation results in an error"
                                              (lambda ()
                                                (lsp-ts-plugin-manager--chain-install (cdr plugins) callback error-callback))
                                              error-callback))))
+
+;; Utils
+(cl-defun lsp-ts-plugin-manager-package-json-has-dependency-p (workspace-root dep &key (in 'dependencies))
+  "Determine whether DEP is installed in package.json in WORKSPACE-ROOT.
+
+IN is a symbol or a list of symbols naming top-level keys in package.json.
+Common values are 'dependencies or 'devDependencies"
+  (if-let ((package-json (f-join workspace-root "package.json"))
+           (exist (f-file-p package-json))
+           (config (json-read-file package-json)))
+      (cl-some (lambda (key)
+                 (thread-last config
+                              (alist-get key)
+                              (alist-get dep)))
+               (ensure-list in))
+    nil))
 
 (provide 'lsp-ts-plugin-manager)
 ;;; lsp-ts-plugin-manager.el ends here

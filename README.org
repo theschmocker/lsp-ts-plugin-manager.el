@@ -19,12 +19,32 @@ Plugins can be installed automatically along with another lsp-mode dependency. H
 (lsp-ts-plugin-manager-register
    (lsp-ts-plugin-manager-plugin
     :name 'typescript-svelte-plugin
-    :activation-fn #'schmo/svelte-project-p
+    :activation-fn #'svelte-project-p
     :package "typescript-svelte-plugin"
     :dependency-of 'svelte-language-server))
 #+end_src
 
 *NOTE*: =lsp-mode= should be loaded before plugins are registered
+*** Utilities
+**** =lsp-ts-plugin-manager-package-json-has-dependency-p=
+This function can be used to check the current workspace's package.json for a dependency. It may be helpful for writing a plugin definition's =activation-fn=.
+
+The keyword argument can be a symbol or a list of symbols for entries to check in the top-level of the current workspace's package.json
+
+Example:
+#+begin_src elisp
+(defun svelte-project-p (workspace-root)
+  "Determines whether the `svelte' package is present in the package.json file in the
+WORKSPACE-ROOT."
+  (lsp-ts-plugin-manager-package-json-has-dependency-p workspace-root 'svelte :in 'devDependencies))
+
+(lsp-ts-plugin-manager-register
+   (lsp-ts-plugin-manager-plugin
+    :name 'typescript-svelte-plugin
+    :activation-fn #'svelte-project-p
+    :package "typescript-svelte-plugin"
+    :dependency-of 'svelte-language-server))
+#+end_src
 ** Caveats
 - I've only tested this with my personal DOOM Emacs configuration. I can't guarantee it'll work with your configuration. Open to PRs!
 - An instance of =lsp-ts-plugin-manager-downloaded-package= can be passed into =lsp-ts-plugin-manager-plugin='s =:package= slot class whose purpose is to enable installation of typescript plugins that are not directly installable through npm. No guarantees that it works.
