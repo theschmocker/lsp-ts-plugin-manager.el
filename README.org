@@ -7,6 +7,8 @@ I wanted something like this specifically to enable better DX for Svelte in Emac
 VSCode exposes a similar capability to plugins (automatic TypeScript language plugins), so
 my hope is that this module will help even the playing field a bit for Emacs. I've tested this with =typescript-svelte-plugin= (enables better support for Svelte, as mentioned above) and =typescript-styled-plugin= (enables better support for CSS autocomplete/hover docs with =styled-components= for React)
 
+Initial work on this was done in a fork of lsp-mode, but as I more fully learned/embraced Emacs's capabilities, I decided to create a separate package and extend lsp-mode using advice. It would be great, however, for this to be included in lsp-mode itself. Full-blown Svelte support, especially, out of the box would be fantastic.
+
 ** Setup
 *** Register a plugin
 Plugins are registered using the =lsp-ts-plugin-manager-register= function, in conjunction with the =lsp-ts-plugin-manager-plugin= constructor
