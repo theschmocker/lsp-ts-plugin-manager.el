@@ -7,7 +7,7 @@
 ;; Created: Nov 19, 2022
 ;; Version: 0.1.0
 ;; Keywords: tools convenience
-;; Homepage: https://github.com/theschmocker/dotfiles/blob/main/emacs/.doom.d/lisp/lsp-ts-plugin-manager.el
+;; Homepage: https://github.com/theschmocker/lsp-ts-plugin-manager.el
 ;; Package-Requires: ((emacs "28.2") (lsp-mode "8.0.1") (dash "2.19.1") (f "0.20.0"))
 
 ;;; Commentary:
