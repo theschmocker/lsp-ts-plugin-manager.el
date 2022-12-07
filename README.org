@@ -1,5 +1,3 @@
-#+title: lsp-ts-plugin-manager
-
 * lsp-ts-plugin-manager
 
 Improves on lsp-mode's built-in support for TypeScript plugins (=lsp-clients-typescript-plugins=) with automatic installation—either as a dependency of a particular language server or with a `completing-read' prompt—and conditional activation depending on workspace information.
