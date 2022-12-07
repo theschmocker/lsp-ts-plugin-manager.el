@@ -2,10 +2,11 @@
 
 Improves on [[https://github.com/emacs-lsp/lsp-mode/][lsp-mode]]'s built-in support for TypeScript plugins (=lsp-clients-typescript-plugins=) with automatic installation—either as a dependency of a particular language server or with a `completing-read' prompt—and conditional activation depending on workspace information.
 ** Motivation
-I wanted something like this specifically to enable better DX for Svelte in Emacs. lsp-mode has a client for Svelte, but without the TypeScript plugin (which enables finding references to symbols from JS/TS files in .svelte files), Svelte support was incomplete.
+I wanted something like this specifically to enable better DX for Svelte in Emacs. lsp-mode has a client for Svelte, but without the TypeScript plugin (which enables finding references to symbols from JS/TS files in .svelte files), Svelte support was incomplete. TypeScript plugins can be enabled manually through =lsp-clients-typescript-plugins=, but I wanted something that could do it automatically.
 
 VSCode exposes a similar capability to plugins (automatic TypeScript language plugins), so
 my hope is that this module will help even the playing field a bit for Emacs. I've tested this with =typescript-svelte-plugin= (enables better support for Svelte, as mentioned above) and =typescript-styled-plugin= (enables better support for CSS autocomplete/hover docs with =styled-components= for React)
+
 ** Setup
 *** Register a plugin
 Plugins are registered using the =lsp-ts-plugin-manager-register= function, in conjunction with the =lsp-ts-plugin-manager-plugin= constructor
