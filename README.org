@@ -1,1 +1,32 @@
 #+title: lsp-ts-plugin-manager
+
+* lsp-ts-plugin-manager
+
+Improves on lsp-mode's built-in support for TypeScript plugins (=lsp-clients-typescript-plugins=) with automatic installation—either as a dependency of a particular language server or with a `completing-read' prompt—and conditional activation depending on workspace information.
+** Setup
+*** Register a plugin
+Plugins are registered using the =lsp-ts-plugin-manager-register= function, in conjunction with the =lsp-ts-plugin-manager-plugin= constructor
+
+Example for =typescript-styled-plugin= for styled components:
+#+begin_src elisp
+(lsp-ts-plugin-manager-register
+   (lsp-ts-plugin-manager-plugin
+    :name 'typescript-styled-plugin ;; plugin name. acts as an identifier
+    :activation-fn #'project-has-styled-components-p ;; function that returns non-nil if plugin should be activated
+    :package "typescript-styled-plugin")) ;; npm package name
+#+end_src
+
+Plugins can be installed automatically along with another lsp-mode dependency. Here's an example that automatically installs =typescript-svelte-plugin= when =svelte-language-server= is installed with lsp-mode:
+#+begin_src elisp
+(lsp-ts-plugin-manager-register
+   (lsp-ts-plugin-manager-plugin
+    :name 'typescript-svelte-plugin
+    :activation-fn #'schmo/svelte-project-p
+    :package "typescript-svelte-plugin"
+    :dependency-of 'svelte-language-server))
+#+end_src
+
+*NOTE*: =lsp-mode= should be loaded before plugins are registered
+** Caveats
+- I've only tested this with my personal DOOM Emacs configuration. I can't guarantee it'll work with your configuration. Open to PRs!
+- An instance of =lsp-ts-plugin-manager-downloaded-package= can be passed into =lsp-ts-plugin-manager-plugin='s =:package= slot class whose purpose is to enable installation of typescript plugins that are not directly installable through npm. No guarantees that it works.
